@@ -7,4 +7,5 @@
     <string name="buy">Buy Anonimously</string>
     <string name="error_purchasing">Error!!</string>
     <string name="success">Order successful: %1$s</string>
+    <string name="save_finger_canceled">Fingerprint not saved</string>
 </resources>

@@ -55,6 +55,7 @@ public class FakeServer {
             }
         } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
             // In a real world, better to send some error message to the user
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

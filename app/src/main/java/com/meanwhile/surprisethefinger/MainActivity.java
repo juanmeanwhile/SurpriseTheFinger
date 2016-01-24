@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.adidas.common.exception.SupernovaException;
 import com.adidas.sso.common.activity.EntryPointActivity;
@@ -33,7 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String PREFS = "prefs";
     private static final String PREF_PRIVATE_KEY = "private_key";
     private String mPrivateKey;
-    private String mUserId = System.currentTimeMillis() + "anom";
+    private String mUserId = "myUsername";
+    private AlertDialog mDialog;
 
     private Button mButton;
 
@@ -48,26 +50,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void onButtonClicked(View view) {
         //Check if there is a fingerprint
-        if (!getSharedPreferences(PREFS, MODE_PRIVATE).contains(PREF_PRIVATE_KEY)) {
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.fingerprint_dialog_title)
-                    .setPositiveButton(R.string.alert_dialog_ok,
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    saveFingerprint();
-                                }
-                            }
-                    )
-                    .setNegativeButton(R.string.alert_dialog_cancel,
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    dialog.dismiss();
-                                    goToCart();
-                                }
-                            }
-                    )
-                    .create();
-        }
+        mDialog = new AlertDialog.Builder(this).setTitle(R.string.fingerprint_dialog_title).setNegativeButton(R.string.alert_dialog_cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.dismiss();
+                        Toast.makeText(MainActivity.this, R.string.save_finger_canceled, Toast.LENGTH_LONG).show();
+                    }
+                }).create();
+
+        //mDialog.show();
+
+        saveFingerprint();
     }
 
     public void saveFingerprint(){

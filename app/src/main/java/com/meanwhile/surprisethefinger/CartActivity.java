@@ -1,10 +1,12 @@
 package com.meanwhile.surprisethefinger;
 
+import android.content.DialogInterface;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.CancellationSignal;
 import android.support.design.widget.Snackbar;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompatApi23;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompatApi23.AuthenticationCallback;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -31,6 +33,7 @@ import java.security.cert.CertificateException;
 public class CartActivity extends AppCompatActivity  {
 
     private Button mButton;
+    private AlertDialog mDialog;
 
 
     @Override
@@ -42,6 +45,15 @@ public class CartActivity extends AppCompatActivity  {
     }
 
     public void onBuyClick(View view) {
+        //Check if there is a fingerprint
+        mDialog = new AlertDialog.Builder(this).setTitle(R.string.fingerprint_dialog_title).setNegativeButton(R.string.alert_dialog_cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                dialog.dismiss();
+                Toast.makeText(CartActivity.this, R.string.save_finger_canceled, Toast.LENGTH_LONG).show();
+            }
+        }).create();
+        mDialog.show();
+
         try {
             Signature signature = Signature.getInstance("SHA256withECDSA");
             KeyStore keyStore = KeyStore.getInstance("AndroidKeyStore");
@@ -56,6 +68,8 @@ public class CartActivity extends AppCompatActivity  {
                 @Override
                 public void onAuthenticationError(int errorCode, CharSequence errString) {
                     super.onAuthenticationError(errorCode, errString);
+                    mDialog.dismiss();
+                    Toast.makeText(getBaseContext(), "authentication error:" + errString.toString(), Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -66,6 +80,8 @@ public class CartActivity extends AppCompatActivity  {
                 @Override
                 public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
                     super.onAuthenticationSucceeded(result);
+                    mDialog.dismiss();
+                    Toast.makeText(getBaseContext(), "FIngerprint correct, sending transaction to the server", Toast.LENGTH_SHORT).show();
                     sendCartToServer(result.getCryptoObject());
                 }
 
@@ -97,7 +113,7 @@ public class CartActivity extends AppCompatActivity  {
     // Include a client nonce in the transaction so that the nonce is also signed
     // by the private key and the backend can verify that the same nonce can't be used
     // to prevent replay attacks.
-        Transaction transaction = new Transaction("user", new SecureRandom().nextLong(), "turret");
+        Transaction transaction = new Transaction("myUsername", new SecureRandom().nextLong(), "turret");
         try {
             signature.update(transaction.toByteArray());
 
