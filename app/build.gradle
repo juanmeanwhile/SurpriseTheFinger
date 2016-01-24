@@ -1,0 +1,40 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+    defaultConfig {
+        applicationId "com.meanwhile.surprisethefinger"
+        minSdkVersion 23
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE.txt'
+    }
+    productFlavors {
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.adidas.UA_SDK:UA_SDK-applib:FW49-50'
+    //compile 'com.adidas.common:common-Supernova:FW51-52-canary2@aar'
+    //compile 'com.adidas.common:common-MasterData_Lib:FW51-52-canary2@aar'
+    //compile 'org.apache.amber:amber-oauth2-client:0.22-incubating'
+    //compile 'com.squareup.okhttp:okhttp:2.4.0'
+    //compile 'com.squareup.okio:okio:1.4.0'
+    //compile 'com.google.code.gson:gson:2.3.1'
+}

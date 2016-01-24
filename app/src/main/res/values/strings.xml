@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">SurpriseTheFinger</string>
+    <string name="alert_dialog_ok">OK</string>
+    <string name="fingerprint_dialog_title">Save a fingerprint</string>
+    <string name="alert_dialog_cancel">Cancel</string>
+    <string name="init_hint">We want you to buy anonimous, but we need to be sure that it is you the one shopping. W\'ll use your fingerprint for that</string>
+    <string name="buy">Buy Anonimously</string>
+    <string name="error_purchasing">Error!!</string>
+    <string name="success">Order successful: %1$s</string>
+</resources>
