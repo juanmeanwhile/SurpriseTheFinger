@@ -113,7 +113,7 @@ public class CartActivity extends AppCompatActivity  {
     // Include a client nonce in the transaction so that the nonce is also signed
     // by the private key and the backend can verify that the same nonce can't be used
     // to prevent replay attacks.
-        Transaction transaction = new Transaction("myUsername", new SecureRandom().nextLong(), "turret");
+        Transaction transaction = new Transaction("user", new SecureRandom().nextLong(), "turret");
         try {
             signature.update(transaction.toByteArray());
 
